@@ -1,7 +1,7 @@
 # RENT-A-BLOCK
 
 # Owner API
-owner api is an api which provides APIs using express and MySQL. By which we can retrive, update and add property details.
+Owner api is an api which provides APIs using express and MySQL. By which we can retrive, update and add property details.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
