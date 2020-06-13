@@ -12,7 +12,7 @@ var mysqlConnection = mysql.createConnection({
     host:'localhost',
     user: 'root',
     password:'',
-    database: 'Owner',
+    database: 'owner',
     multipleStatements: true
 });
 
@@ -81,7 +81,7 @@ app.post('/documentsImage', function (req, res) {
 
 //----------------------------------//
 
-//Get All Propperties
+//Get All Properties
 app.get('/property',(req,res)=>{
     mysqlConnection.query('SELECT * FROM property',(err, rows, fields)=>{
         if(!err)
@@ -118,14 +118,14 @@ app.delete('/del_property/:id',(req,res)=>{
 
 app.post('/new_property',(req,res)=>{
     let p = req.body;
-    var sql = "SET @PropId = ?;SET @PropDetails = ?;SET @PropAddress = ?;SET @PropArea = ?;\
+    var sql = "SET @PropId = ?;SET @UserId = ?;SET @PropDetails = ?;SET @PropAddress = ?;SET @PropArea = ?;\
     SET @PropAreaD = ?;SET @PropCovered = ?;SET @PropLeaseType= ?;SET @PropServices = ?;SET @PropDocuments = ?;\
     SET @PropVerification = ?;SET @PropAvailable = ?;SET @PropImage = ?;\
-    CALL PropertyAddOrEdit(@PropId,@PropDetails,@PropAddress,@PropArea,\
+    CALL PropertyAddOrEdit(@PropId,@UserId,@PropDetails,@PropAddress,@PropArea,\
         @PropAreaD,@PropCovered,@PropLeaseType,@PropServices,@PropDocuments, \
         @PropVerification,@PropAvailable,@PropImage);";
 
-    mysqlConnection.query(sql,[p.propId,p.propDetails, p.propAddress, p.propArea,p.propAreaD,p.propCovered,p.propLeaseType,p.propServices,p.propDocuments,p.propVerification,p.propAvailable,p.propImage],(err, rows, fields)=>{
+    mysqlConnection.query(sql,[p.propId,p.userId,p.propDetails, p.propAddress, p.propArea,p.propAreaD,p.propCovered,p.propLeaseType,p.propServices,p.propDocuments,p.propVerification,p.propAvailable,p.propImage],(err, rows, fields)=>{
         if(!err)
         rows.forEach(element => {
         
@@ -143,13 +143,13 @@ app.post('/new_property',(req,res)=>{
 
 app.put('/update_property',(req,res)=>{
     let p = req.body;
-    var sql = "SET @PropId = ?;SET @PropDetails = ?;SET @PropAddress = ?;SET @PropArea = ?;\
+    var sql = "SET @PropId = ?;SET @UserId = ?;SET @PropDetails = ?;SET @PropAddress = ?;SET @PropArea = ?;\
     SET @PropAreaD = ?;SET @PropCovered = ?;SET @PropLeaseType= ?;SET @PropServices = ?;SET @PropDocuments = ?;\
     SET @PropVerification = ?;SET @PropAvailable = ?;SET @PropImage = ?;\
-    CALL PropertyAddOrEdit(@PropId,@PropDetails,@PropAddress,@PropArea,\
+    CALL PropertyAddOrEdit(@PropId,@UserId,@PropDetails,@PropAddress,@PropArea,\
         @PropAreaD,@PropCovered,@PropLeaseType,@PropServices,@PropDocuments, \
         @PropVerification,@PropAvailable,@PropImage);";
-        mysqlConnection.query(sql,[p.propId,p.propDetails, p.propAddress, p.propArea,p.propAreaD,p.propCovered,p.propLeaseType,p.propServices,p.propDocuments,p.propVerification,p.propAvailable,p.propImage],(err, rows, fields)=>{
+        mysqlConnection.query(sql,[p.propId,p.userId,p.propDetails, p.propAddress, p.propArea,p.propAreaD,p.propCovered,p.propLeaseType,p.propServices,p.propDocuments,p.propVerification,p.propAvailable,p.propImage],(err, rows, fields)=>{
         
         if(!err)
         res.send('Updated Succesfully');

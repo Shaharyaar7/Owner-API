@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2020 at 01:13 PM
+-- Generation Time: Jun 13, 2020 at 11:33 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -25,16 +25,17 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PropertyAddOrEdit` (IN `_PropId` INT(100), IN `_PropDetails` VARCHAR(500), IN `_PropAddress` VARCHAR(200), IN `_PropArea` INT(10), IN `_PropAreaD` VARCHAR(10), IN `_PropCovered` VARCHAR(100), IN `_PropLeaseType` VARCHAR(100), IN `_PropServices` VARCHAR(100), IN `_PropDocuments` TEXT, IN `_PropVerification` VARCHAR(100), IN `_PropAvailable` VARCHAR(100), IN `_PropImage` TEXT)  BEGIN
-	IF _PropId =0 THEN
-		INSERT INTO `property`(`propId`,`propDetails`, `propAddress`, `propArea`, `propAreaD`, `propCovered`, `propLeaseType`, `propServices`, `propDocuments`, `propVerification`, `propAvailable`, `propImage`)
-        VALUES (_PropId,_PropDetails,_PropAddress,_PropArea,_PropAreaD,_PropCovered,_PropLeaseType,_PropServices,_PropDocuments,_PropVerification,_PropAvailable,_PropImage);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PropertyAddOrEdit` (IN `_PropId` INT(100), IN `_UserId` INT(100), IN `_PropDetails` VARCHAR(500), IN `_PropAddress` VARCHAR(200), IN `_PropArea` INT(10), IN `_PropAreaD` VARCHAR(10), IN `_PropCovered` VARCHAR(100), IN `_PropLeaseType` VARCHAR(100), IN `_PropServices` VARCHAR(100), IN `_PropDocuments` TEXT, IN `_PropVerification` VARCHAR(100), IN `_PropAvailable` VARCHAR(100), IN `_PropImage` TEXT)  BEGIN
+	IF _PropId = 0 THEN
+		INSERT INTO `property`(`propId`,`userId`,`propDetails`, `propAddress`, `propArea`, `propAreaD`, `propCovered`, `propLeaseType`, `propServices`, `propDocuments`, `propVerification`, `propAvailable`, `propImage`)
+        VALUES (_PropId,_UserId,_PropDetails,_PropAddress,_PropArea,_PropAreaD,_PropCovered,_PropLeaseType,_PropServices,_PropDocuments,_PropVerification,_PropAvailable,_PropImage);
 	
         SET _PropId = LAST_INSERT_ID();
 	ELSE
 		UPDATE property
         SET
         `propId`= _PropId,
+        `userId`= _UserId,
         `propDetails`= _PropDetails,
         `propAddress`= _PropAddress,
         `propArea`= _PropArea,
@@ -62,6 +63,7 @@ DELIMITER ;
 
 CREATE TABLE `property` (
   `propId` int(100) NOT NULL,
+  `userId` int(100) NOT NULL,
   `propDetails` varchar(500) NOT NULL,
   `propAddress` varchar(200) NOT NULL,
   `propArea` int(10) NOT NULL,
@@ -79,10 +81,13 @@ CREATE TABLE `property` (
 -- Dumping data for table `property`
 --
 
-INSERT INTO `property` (`propId`, `propDetails`, `propAddress`, `propArea`, `propAreaD`, `propCovered`, `propLeaseType`, `propServices`, `propDocuments`, `propVerification`, `propAvailable`, `propImage`) VALUES
-(3, 'Parking lot', 'Red Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
-(4, 'Parking lot', 'Anantagiri Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
-(5, 'Parking lot', 'Green Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg');
+INSERT INTO `property` (`propId`, `userId`, `propDetails`, `propAddress`, `propArea`, `propAreaD`, `propCovered`, `propLeaseType`, `propServices`, `propDocuments`, `propVerification`, `propAvailable`, `propImage`) VALUES
+(1, 0, 'Parking lot', 'Red Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
+(3, 0, 'Parking lot', 'Red Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
+(4, 0, 'Parking lot', 'Anantagiri Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
+(5, 0, 'Parking lot', 'Shah Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
+(6, 0, 'Parking lot', 'kutchi Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg'),
+(7, 2, 'Parking lot', 'Blue Hills', 100, 'Sqft', 'Covered', 'Rental', 'Car wash center', 'doc.txt', 'Verified', 'Available', 'prop-img1.jpg');
 
 --
 -- Indexes for dumped tables
@@ -102,7 +107,7 @@ ALTER TABLE `property`
 -- AUTO_INCREMENT for table `property`
 --
 ALTER TABLE `property`
-  MODIFY `propId` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `propId` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
